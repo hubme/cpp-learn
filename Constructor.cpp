@@ -1,24 +1,23 @@
 #include <iostream>
 using namespace std;
 
-class Person
-{
-private:
+class Person {
+   private:
     // 空字符串
     string name;
     // 一个不确定的值，可能是任何整数
     int age;
 
-public:
+   public:
     Person();
     Person(string name, int age);
+    Person(const Person &other);
     ~Person();
 
     void print();
 };
 
-Person::Person()
-{
+Person::Person() {
     cout << "构造函数-空参数" << endl;
     name = "";
     age = 0;
@@ -32,25 +31,21 @@ Person::Person()
     // age = 0;
 } */
 
-Person::Person(string name, int age)
-{
+Person::Person(string name, int age) {
     cout << "构造函数-带参数" << endl;
     this->name = name;
     this->age = age;
 }
 
-Person::~Person()
-{
-    cout << "析构函数" << endl;
+Person::Person(const Person &other) : name(other.name), age(other.age) {
+    cout << "拷贝构造函数" << endl;
 }
 
-void Person::print()
-{
-    cout << "name = " << name << ", age = " << age << endl;
-}
+Person::~Person() { cout << "析构函数" << endl; }
 
-int main(int argc, char const *argv[])
-{
+void Person::print() { cout << "name = " << name << ", age = " << age << endl; }
+
+int main(int argc, char const *argv[]) {
     Person p1;
     p1.print();
 
@@ -65,6 +60,12 @@ int main(int argc, char const *argv[])
     // 通过指针访问
     p3->print();
     delete p3;
+
+    Person p4("hehehe", 22);
+    p4.print();
+
+    Person p5(p4);
+    p5.print();
 
     return 0;
 }
