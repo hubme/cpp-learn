@@ -13,6 +13,7 @@ class MyClass {
     MyClass(int age);
     // 不会修改对象状态的成员函数
     void hello() const;
+    void hello();
     void setAge(int age);
     void getAge() const;
 };
@@ -20,6 +21,8 @@ class MyClass {
 MyClass::MyClass() : number(100) {}
 
 MyClass::MyClass(int value) : number(10) { this->value = value; }
+
+void MyClass::hello() { cout << "hello" << endl; }
 
 void MyClass::hello() const {
     // 无法修改成员变量的值，但是可以访问。
@@ -31,7 +34,7 @@ void MyClass::setAge(int age) { this->age = age; }
 
 void MyClass::getAge() const { cout << "getAge() age = " << age << endl; }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const* argv[]) {
     /*
     const int* ptr;  // 指向常量的指针
     int* const ptr;  // 常量指针
@@ -39,13 +42,20 @@ int main(int argc, char const *argv[]) {
     */
 
     MyClass clazz(11);
+    // 调用非 const 成员函数
     clazz.hello();
     clazz.age = 10;
+
+    // 通过指向 const 对象的指针调用 const 成员函数
+    const MyClass* MyClassPtr = &clazz;
+    MyClassPtr->hello();
 
     const MyClass constClazz(11);
     // 编译报错，不能调用非const成员函数。对象是常量，无法修改对象状态
     // constClazz.setAge(111);
     constClazz.getAge();
+    // 调用 const 成员函数
+    constClazz.hello();
 
     return 0;
 }
