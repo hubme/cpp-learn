@@ -20,11 +20,23 @@ class FriendClass {
     FriendClass(string name) : name(name) {}
     void method1();
     friend void method2(FriendClass f);
+
+    friend class OtherClass;
 };
 
 void FriendClass::method1() { cout << "name = " << name << endl; }
 // 友元函数不被视为类成员
 void method2(FriendClass f) { cout << "name = " << f.name << endl; }
+
+class OtherClass {
+   public:
+    void myFriendClass(FriendClass f);
+};
+
+void OtherClass::myFriendClass(FriendClass f) {
+    // 如果不声明友元，无法访问 FriendClass 中的私有成员变量 name
+    cout << "FriendClass name: " << f.name;
+}
 
 int main(int argc, char const *argv[]) {
     FriendClass f("Vance");
