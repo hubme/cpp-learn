@@ -8,6 +8,10 @@ class MyClass {
     const int number;
 
    public:
+    // 必须 const static 才能赋值，单独 static 不能赋值。
+    const static int value1 = 100;
+    static int value2;
+    int value3 = 666;
     int age;
     MyClass();
     MyClass(int age);
@@ -18,6 +22,9 @@ class MyClass {
     void setAge(int age);
     void getAge() const;
 };
+
+// 非静态数据成员不能在类外部定义
+// int MyClass::value3 = 222;//报错
 
 MyClass::MyClass() : number(100) {}
 
@@ -65,9 +72,9 @@ int main(int argc, char const* argv[]) {
     如果const位于*的左侧，则const就是用来修饰指针所指向的变量，即指针指向为常量；
     如果const位于*的右侧，const就是修饰指针本身，即指针本身是常量。
     */
-    const char* a;        // 指向const对象的指针或者说指向常量的指针。
-    char const* b;        // 同上
-    char* const c = "c";  // 指向类型对象的const指针。或者说常指针、const指针。
+    const char* a;              // 指向const对象的指针或者说指向常量的指针。
+    char const* b;              // 同上
+    char* const c = "c";        // 指向类型对象的const指针。或者说常指针、const指针。
     const char* const d = "d";  // 指向const对象的const指针。
 
     const int* ptr;  // 同 int const* ptr;
