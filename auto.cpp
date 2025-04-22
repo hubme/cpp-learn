@@ -1,4 +1,5 @@
 #include <iostream>
+#include <utility>
 #include <vector>
 
 using namespace std;
@@ -45,6 +46,14 @@ auto multiply(int x) {
     }
 }
 
+// 等价于 squareTemplate()
+auto square(auto x) { return x * x; }
+
+template <class T>
+decltype(T() * T()) squareTemplate(T x) {
+    return x * x;
+}
+
 void test3() {
     auto resultInt = multiply(5);       // result 的类型为 int
     auto resultDouble = multiply(5.0);  // result2 的类型为 double
@@ -53,6 +62,9 @@ void test3() {
     cout << "resultInt type: " << typeid(resultInt).name() << endl;
     cout << "resultDouble type: " << typeid(resultDouble).name() << endl;
     cout << "typeid(double) type: " << typeid(double).name() << endl;
+
+    cout << "square(5): " << typeid(square(5)).name()
+         << " square(3.14):" << typeid(square(3.14)).name() << endl;
 }
 
 void test4() {
