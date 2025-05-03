@@ -15,6 +15,9 @@ using namespace std;
 
 #define DEBUG
 
+// ## 运算符用于连接两个令牌
+#define concat(x, y) x ## y
+
 int main(int argc, char const *argv[]) {
     cout << "PI=" << PI << "\n";
     cout << "MIN(1, 2)=" << MIN(1, 2) << "\n";
@@ -22,6 +25,9 @@ int main(int argc, char const *argv[]) {
 #ifdef DEBUG
     cout << "DEBUG is defined" << "\n";
 #endif
+
+    string xy = "hello world!";
+    cout << concat(x, y) << endl;
 
     cout << "Value of __LINE__ : " << __LINE__ << endl;
     cout << "Value of __FILE__ : " << __FILE__ << endl;
