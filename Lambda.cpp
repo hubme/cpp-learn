@@ -14,7 +14,8 @@ using namespace std;
  * [=, &z] // z显式地以引用方式加以引用。其余变量以传值方式加以引用。
  *
  */
-int main(int argc, char const *argv[]) {
+
+void test() {
     auto add = [](int a, int b) { return a + b; };
     cout << "add(1, 2)=" << add(1, 2) << "\n";
 
@@ -57,6 +58,51 @@ int main(int argc, char const *argv[]) {
     lambda4();
     // 输出:10 100
     cout << a << "\t" << b << endl;
+}
 
+void test1() {
+    int id = 0;
+    // 先看前面的id 如果没有mutable error: expression must be a modifiable lvalue
+    auto f = [id]() mutable {
+        cout << "id=" << id << endl;
+        ++id;
+    };
+
+    /*
+    class Functor {
+       private:
+           int id;
+       public:
+           void operator() {
+               cout << "id=" << id << endl;
+               ++id;
+           }
+    };
+    Functor f;
+    */
+
+    id = 42;
+    f();                 // 0
+    f();                 // 1
+    f();                 // 2
+    cout << id << endl;  // 42
+}
+
+void test2() {
+    int id = 0;
+    // 加不加mutable没影响,且传引用只要后面id1被修改了,就会使用修改后的值进行操作
+    auto f1 = [&id]() {
+        cout << "id1=" << id << endl;
+        ++id;
+    };
+    id = 42;
+    f1();  // 42
+    f1();  // 43
+    f1();  // 44
+    cout << id << endl;//45
+}
+
+int main(int argc, char const *argv[]) {
+    test2();
     return 0;
 }
