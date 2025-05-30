@@ -9,6 +9,10 @@ class Person {
     int age;
 
    public:
+    int intA;
+    double doubleB;
+
+   public:
     Person();
     Person(string name, int age);
     Person(const Person &other);
@@ -44,6 +48,14 @@ Person::Person(const Person &other) : name(other.name), age(other.age) {
 Person::~Person() { cout << "析构函数" << endl; }
 
 void Person::print() { cout << "name = " << name << ", age = " << age << endl; }
+
+class A {
+    A() = default;
+    A(const A &other) = default;
+    ~A() = default;
+
+    A &operator=(const A &other) = delete;  // 删除赋值运算符
+};
 
 int main(int argc, char const *argv[]) {
     Person p1;
