@@ -1,4 +1,7 @@
+#include <algorithm>
+#include <functional>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -96,13 +99,50 @@ void test2() {
         ++id;
     };
     id = 42;
-    f1();  // 42
-    f1();  // 43
-    f1();  // 44
-    cout << id << endl;//45
+    f1();                // 42
+    f1();                // 43
+    f1();                // 44
+    cout << id << endl;  // 45
+}
+
+void test3() {
+    int a = 0;
+    auto fa = [=] { return a; };  // 值捕获，无法修改外部变量a
+    // auto fa = [=]() mutable { return a++; };  // 值捕获，需要使用 mutable 修饰，而且 () 不能省略
+    a += 1;
+    cout << fa() << endl;  // 输出0
+
+    int b = 0;
+    auto fb = [&b] { return b; };  // 引用捕获
+    b += 1;
+    cout << fb() << endl;  // 输出1
+
+    // fa = fb;  // error, lambda无法赋值。闭包类型禁用了赋值操作符，但是没有禁用复制构造函数。
+    auto fc = fb;  // 合法，生成一个副本
+}
+
+function<int(int)> test4(int x) {
+    return [&](int a) { return x + a; };
+}
+
+void test5() {
+    vector<int> v(10);
+    int a = 0;
+    int b = 1;
+    generate(v.begin(), v.end(), [&a, &b] {
+        int value = b;
+        b = b + a;
+        a = value;
+        return value;
+    });
+    // 输出：1 1 2 3 5 8 13 21 34 55
+    for (auto i : v) {
+        cout << i << " ";
+    }
 }
 
 int main(int argc, char const *argv[]) {
-    test2();
+    auto aaa = test4(2);
+    cout << aaa.operator()(3);  // 调用闭包，传入参数1
     return 0;
 }
