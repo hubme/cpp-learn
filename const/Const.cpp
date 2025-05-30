@@ -6,6 +6,7 @@ class MyClass {
    private:
     int value;
     const int number;
+    mutable int mul_number;
 
    public:
     // 必须 const static 才能赋值，单独 static 不能赋值。
@@ -35,7 +36,9 @@ void MyClass::hello() { cout << "hello" << endl; }
 void MyClass::hello() const {
     // 无法修改成员变量的值，但是可以访问。
     // number = 10;
-    cout << "number = " << number << endl;
+    // 变量使用 mutable 修饰后，可以在 const 成员函数中修改。
+    mul_number = 10;
+    cout << "number = " << number << " mul_number = " << mul_number << endl;
 }
 
 void MyClass::setAge(int age) { this->age = age; }
