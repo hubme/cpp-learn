@@ -11,6 +11,7 @@ using namespace std;
 struct Human {
     string name;
     int age;
+    int sext = 1;  // 0: 未知，1: 男，2: 女
 
     Human() {
         name = "";
