@@ -7,6 +7,15 @@ void test1() {
     map<string, int> numberMap = {{"one", 1}, {"two", 2}, {"three", 3}};
     numberMap["four"] = 4;
     numberMap["five"] = 5;
+    numberMap["five"] = 55;  // 可以更新值
+
+    numberMap.insert(pair<string, int>("six", 6));
+    numberMap.insert(make_pair("seven", 7));
+    numberMap.insert({"eight", 8});
+    numberMap.insert({"eight", 88});          // 重复插入不会报错，但不会更新已有的值
+    numberMap.insert_or_assign("eight", 88);  // 可以更新值
+
+    cout << "five=" << numberMap["five"] << " eight=" << numberMap["eight"] << endl;  // 输出 55
 
     // 遍历 map
     for (auto const &pair : numberMap) {
@@ -29,6 +38,7 @@ void test1() {
     for (auto it = numberMap.begin(); it != numberMap.end(); ++it) {
         cout << it->first << ": " << it->second << "  ";
     }
+    cout << endl;
 }
 
 int main(int argc, char const *argv[]) {
