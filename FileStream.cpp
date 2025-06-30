@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <string>
 
 using namespace std;
@@ -49,6 +50,14 @@ void testReadFile() {
 
     infile.close();
     cout << "数据已读取" << endl;
+}
+
+void testFail() {
+    if (cin.fail()) {
+        cin.clear();  // 清除错误状态
+        // 需要导入 limits 头文件
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // 忽略输入缓冲区中的错误数据
+    }
 }
 
 int main(int argc, char const *argv[]) {
