@@ -12,8 +12,9 @@ void test1() {
     numberMap.insert(pair<string, int>("six", 6));
     numberMap.insert(make_pair("seven", 7));
     numberMap.insert({"eight", 8});
-    numberMap.insert({"eight", 88});          // 重复插入不会报错，但不会更新已有的值
-    numberMap.insert_or_assign("eight", 88);  // 可以更新值
+    numberMap.insert({"eight", 88});  // 重复插入不会报错，但不会更新已有的值
+    //.insert_or_assign(key,value) → pair<@pos,insert_success> C++17
+    numberMap.insert_or_assign("eight", 88);  // 可以更新值。
 
     cout << "five=" << numberMap["five"] << " eight=" << numberMap["eight"] << endl;  // 输出 55
 
@@ -41,7 +42,23 @@ void test1() {
     cout << endl;
 }
 
+void test2() {
+    map<int, string> numberMap = {{1, "one"}, {2, "two"}, {3, "three"}};
+    numberMap[0] = "zero";
+    numberMap[1] = "ONE";  // 可以更新值
+
+    try {
+        numberMap.at(4) = "four";  // 如果 key 不存在，会抛出 out_of_range 异常
+    } catch (const out_of_range &e) {
+        cerr << "Exception: " << e.what() << endl;
+    }
+
+    for (auto const &pair : numberMap) {
+        cout << pair.first << " = " << pair.second << "\n";
+    }
+}
+
 int main(int argc, char const *argv[]) {
-    test1();
+    test2();
     return 0;
 }
