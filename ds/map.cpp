@@ -1,7 +1,16 @@
 #include <iostream>
 #include <map>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
+
+/**
+ * 1. https://hackingcpp.com/cpp/std/associative_containers.html
+ * 2. https://www.apiref.com/cpp-zh/cpp/container/unordered_map.html
+ */
 
 void test1() {
     map<string, int> numberMap = {{"one", 1}, {"two", 2}, {"three", 3}};
@@ -17,6 +26,9 @@ void test1() {
     numberMap.insert_or_assign("eight", 88);  // 可以更新值。
 
     cout << "five=" << numberMap["five"] << " eight=" << numberMap["eight"] << endl;  // 输出 55
+
+    set<string> keys{"one", "three", "five", "ten"};
+    auto aa = keys.extract("ten");
 
     // 遍历 map
     for (auto const &pair : numberMap) {
@@ -58,7 +70,25 @@ void test2() {
     }
 }
 
+void test3() {
+    unordered_map<int, string> m{{6, "x"}, {4, "a"}, {7, "n"}, {2, "z"}};
+    cout << "m.size() = " << m.size() << " m.bucket_count() = " << m.bucket_count()
+         << " m.bucket_size(1) = " << m.bucket_size(1) << " m.bucket_size(2) = " << m.bucket_size(2)
+         << " m.bucket_size(3) = " << m.bucket_size(3) << " m.load_factor = " << m.load_factor()
+         << " m.max_load_factor = " << m.max_load_factor() << endl;
+}
+
+void test4() {
+    unordered_set<int> s{1, 3, 5, 8, 9};
+    // get bucket with key 3
+    const auto b = s.bucket(1);
+    // iterate over keys in bucket
+    for (auto i = s.cbegin(b); i != s.cend(b); ++i) {
+        cout << *i << ' ';
+    }
+}
+
 int main(int argc, char const *argv[]) {
-    test2();
+    test4();
     return 0;
 }
